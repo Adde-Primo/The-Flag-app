@@ -1,0 +1,33 @@
+.home-page {
+    width: 100%;
+  }
+
+  .filter-bar {
+    margin-top: 1.8rem;
+  }
+  
+  .loading {
+    text-align: center;
+    font-size: 1.0rem;
+    margin-top: 2rem;
+  }
+  
+  .countries-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 2rem;
+  }
+  
+  @media screen and (max-width: 900px) {
+    .filter-bar {
+      margin-top: 1.0rem;
+    }
+    
+    .countries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      margin-top: 3rem;
+      gap: 3rem;
+    }
+
+  }

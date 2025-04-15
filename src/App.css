@@ -1,0 +1,45 @@
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+.app.light {
+  --bg-color: #ffffff;
+  --text-color: #202c36;
+  --element-bg: #ffffff;
+  --textfield-bg: #2b3844
+}
+
+.app.dark {
+  --bg-color: #202c36;
+  --text-color: #f2f2f2;
+  --element-bg: #2b3844;
+  --textfield-bg: #2b3844; 
+}
+
+.app {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  min-height: 100vh;
+}
+
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px 0;
+}
+
+
+@media screen and (max-width: 900px) {
+  .container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px 0;
+  }
+}

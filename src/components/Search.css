@@ -1,0 +1,12 @@
+.search-container {
+    width: 30%;
+    margin-bottom: 2.0rem;
+  }
+  
+  
+  @media screen and (max-width: 900px) {
+    .search-container {
+      width: 100%;
+    }
+  }
+  

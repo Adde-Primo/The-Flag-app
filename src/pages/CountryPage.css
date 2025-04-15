@@ -1,0 +1,82 @@
+.country-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: fit-content; 
+
+  background-color: var(--element-bg);
+  color: var(--text-color);
+  border: none;
+  padding: 0.4rem 0.8rem; 
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  font-size: 1rem;
+}
+
+.back-arrow {
+  width: 18px; 
+  height: auto;
+  display: block;
+}
+
+.details-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.details-flag {
+  width: 100%;
+  max-width: 400px;
+  align-self: center;
+}
+
+.details-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.info-columns {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.neighbors {
+  margin-top: 1rem;
+}
+
+.neighbors-list {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.neighbor-button {
+  background-color: var(--element-bg);
+  color: var(--text-color);
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border-radius: 4px;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 2rem;
+}
+
+.no-country {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-top: 2rem;
+}
+
