@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import NavBar from './components/Navbar';
+import NavBar from './components/NavBar';
 import CountryPage from './pages/CountryPage';
 import HomePage from './pages/HomePage';
-import PageNotFound from './pages/PageNotFound';
+import PageNotFound from './pages/PagenotFound';
 
 function App() {
 
