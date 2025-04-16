@@ -5,8 +5,9 @@
     border-radius: 5px;
     overflow: hidden;
     text-decoration: none;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
     transition: transform 0.2s;
+    margin-bottom: 2rem;
   }
   
   .country-card:hover {
@@ -22,10 +23,15 @@
   .country-info {
     padding: 1rem;
     font-size: 0.9rem;
-    line-height: 1.2;
+    line-height: 1.0;
   }
   
   .country-info p {
     margin-bottom: 0.8rem;
     margin-top: 0.8rem;
+    margin: 0.4rem 0;
+  }
+
+  .country-info h2 {
+    margin-bottom: 1.5rem;
   }
