@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import './CountryPage.css';
+import { Grid, Box, Typography, IconButton, Button } from '@mui/material';
 import ArrowLeftDark from '../assets/arrow-left-dark.svg';
 import ArrowLeft from '../assets/arrow-left.svg';
 
@@ -35,103 +35,124 @@ function CountryPage({ theme }) {
       }
       setLoading(false);
     };
-
     fetchCountry();
   }, [name]);
 
   if (loading) {
-    return <div className="loading">Loading...</div>;
+    return (
+      <Typography variant="h5" textAlign="center" mt={4}>
+        Loading...
+      </Typography>
+    );
   }
 
   if (!country) {
-    return <div className="no-country">Country not found...</div>;
+    return (
+      <Typography variant="h5" textAlign="center" mt={4}>
+        Country not found...
+      </Typography>
+    );
   }
 
-  return (
-    <div className="country-details">
-      <button className="back-button" onClick={() => navigate(-1)}>
-        <span className="back-icon-container">
-          <img
-            src={theme === 'dark' ? ArrowLeft : ArrowLeftDark}
-            alt="Back arrow"
-            className="back-arrow"
-          />
-        </span>
-        <span className="back-text">BACK</span>
-      </button>
+  const arrowIcon = theme === 'dark' ? ArrowLeft : ArrowLeftDark;
 
-      <div className="details-container">
-        <img
-          src={country.flags.png}
-          alt={`${country.name.common} flag`}
-          className="details-flag"
-        />
-        <div className="details-info">
-          <h2>{country.name.common}</h2>
-          <div className="info-columns">
-            <div>
-              <p>
-                <strong>Native Name:</strong>{' '}
-                {country.name.nativeName
-                  ? Object.values(country.name.nativeName)[0].common
-                  : 'N/A'}
-              </p>
-              <p>
-                <strong>Population:</strong>{' '}
-                {country.population.toLocaleString()}
-              </p>
-              <p>
-                <strong>Region:</strong> {country.region}
-              </p>
-              <p>
-                <strong>Sub Region:</strong> {country.subregion || 'N/A'}
-              </p>
-              <p>
-                <strong>Capital:</strong>{' '}
-                {country.capital ? country.capital[0] : 'N/A'}
-              </p>
-            </div>
-            <div>
-              <p>
-                <strong>Top Level Domain:</strong>{' '}
-                {country.tld ? country.tld.join(', ') : 'N/A'}
-              </p>
-              <p>
-                <strong>Currencies:</strong>{' '}
-                {country.currencies
-                  ? Object.values(country.currencies)
-                      .map((c) => c.name)
-                      .join(', ')
-                  : 'N/A'}
-              </p>
-              <p>
-                <strong>Languages:</strong>{' '}
-                {country.languages
-                  ? Object.values(country.languages).join(', ')
-                  : 'N/A'}
-              </p>
-            </div>
-          </div>
-          {neighbors.length > 0 && (
-            <div className="neighbors">
-              <h3>Border Countries:</h3>
-              <div className="neighbors-list">
-                {neighbors.map((neighbor) => (
-                  <Link
-                    key={neighbor.cca3}
-                    to={`/country/${neighbor.name.common}`}
-                    className="neighbor-button"
-                  >
-                    {neighbor.name.common}
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
+  return (
+    <Box sx={{ width: '100%', margin: '0 auto', padding: 0 }}>
+      <Grid container direction="column" spacing={9} sx={{ padding: 1 }}>
+        {/* Back Button */}
+        <Grid>
+          <Box display="flex" alignItems="center">
+            <IconButton onClick={() => navigate(-1)}>
+              <img
+                src={arrowIcon}
+                alt="Back arrow"
+                style={{
+                  width: '18px',
+                  height: 'auto',
+                  filter: theme === 'dark' ? 'brightness(0) invert(1)' : 'none'
+                }}
+              />
+            </IconButton>
+            <Typography variant="body1" ml={1}>
+              BACK
+            </Typography>
+          </Box>
+        </Grid>
+
+        {/* Contenido: Bandera e Información */}
+        <Grid container spacing={8}>
+          {/* Columna para la bandera */}
+          <Grid sx={{ width: { xs: '100%', md: '40%' } }}>
+            <Box display="flex" justifyContent="center">
+              <img
+                src={country.flags.png}
+                alt={`${country.name.common} flag`}
+                style={{
+                  width: '100%',
+                  height: 'auto'
+                }}
+              />
+            </Box>
+          </Grid>
+
+          {/* Columna para la información */}
+          <Grid sx={{ width: { xs: '100%', md: '50%' } }}>
+            <Typography variant="h3" gutterBottom>
+              {country.name.common}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Population:</strong> {country.population.toLocaleString()}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Region:</strong> {country.region}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Sub Region:</strong> {country.subregion || 'N/A'}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Capital:</strong>{' '}
+              {country.capital ? country.capital[0] : 'N/A'}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Top Level Domain:</strong>{' '}
+              {country.tld ? country.tld.join(', ') : 'N/A'}
+            </Typography>
+            <Typography variant="body1">
+              <strong>Currencies:</strong>{' '}
+              {country.currencies
+                ? Object.values(country.currencies).map((c) => c.name).join(', ')
+                : 'N/A'}
+            </Typography>
+            <Typography variant="body1" gutterBottom>
+              <strong>Languages:</strong>{' '}
+              {country.languages
+                ? Object.values(country.languages).join(', ')
+                : 'N/A'}
+            </Typography>
+
+            {neighbors.length > 0 && (
+              <Box mt={2}>
+                <Typography variant="h6">Border Countries:</Typography>
+                <Box display="flex" flexWrap="wrap" gap={1} mt={1}>
+                  {neighbors.map((neighbor) => (
+                    <Button
+                      key={neighbor.cca3}
+                      variant="outlined"
+                      component={Link}
+                      to={`/country/${neighbor.name.common}`}
+                    >
+                      {neighbor.cca3}
+                    </Button>
+                  ))}
+                </Box>
+              </Box>
+            )}
+          </Grid>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 
 export default CountryPage;
+

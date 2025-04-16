@@ -18,8 +18,14 @@ function HomePage() {
       try {
         const res = await fetch('https://restcountries.com/v3.1/all');
         const data = await res.json();
-        setCountries(data);
-        setFilteredCountries(data);
+
+        
+        const sortedData = data.sort((a, b) =>
+          a.name.common.localeCompare(b.name.common)
+        );
+
+        setCountries(sortedData);
+        setFilteredCountries(sortedData);
       } catch (error) {
         console.error('Error fetching countries:', error);
       }
@@ -65,4 +71,3 @@ function HomePage() {
 }
 
 export default HomePage;
-

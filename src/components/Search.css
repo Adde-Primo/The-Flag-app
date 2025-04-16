@@ -2,7 +2,24 @@
     width: 30%;
     margin-bottom: 2.0rem;
   }
+
+  .app.dark {
+    --border-white: #ffffff;
+  }
   
+  .app.dark .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline {
+    border-color: var(--border-white);
+  }
+  
+.app.dark .MuiOutlinedInput-input,
+.app.dark .MuiInputBase-input {
+  color: #ffffff;
+}
+
+
+.app.dark .MuiInputLabel-root {
+  color: #ffffff;
+}
   
   @media screen and (max-width: 900px) {
     .search-container {
