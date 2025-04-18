@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Grid, Box, Typography, IconButton, Button } from '@mui/material';
+import { Grid, Box, Typography, Button } from '@mui/material';
 import ArrowLeftDark from '../assets/arrow-left-dark.svg';
 import ArrowLeft from '../assets/arrow-left.svg';
 
@@ -59,31 +59,38 @@ function CountryPage({ theme }) {
   return (
     <Box sx={{ width: '100%', margin: '0 auto', padding: 0 }}>
       <Grid container direction="column" spacing={9} sx={{ padding: 1 }}>
-        {/* Back Button */}
         <Grid>
-          <Box display="flex" alignItems="center">
-            <IconButton onClick={() => navigate(-1)}>
+          <Button
+            fullWidth
+            onClick={() => navigate(-1)}
+            startIcon={
               <img
                 src={arrowIcon}
                 alt="Back arrow"
                 style={{
-                  width: '18px',
+                  width: 22,
                   height: 'auto',
-                  filter: theme === 'dark' ? 'brightness(0) invert(1)' : 'none'
+                  filter:
+                    theme === 'dark' ? 'brightness(0) invert(1)' : undefined
                 }}
               />
-            </IconButton>
-            <Typography variant="body1" ml={1}>
-              BACK
-            </Typography>
-          </Box>
+            }
+            sx={{
+              display: 'inline-flex',
+              width: 'fit-content',
+              justifyContent: 'flex-start',
+              textTransform: 'none',
+              color: 'inherit',
+              padding: '10px 1px'
+            }}
+          >
+            BACK
+          </Button>
         </Grid>
 
-        {/* Contenido: Bandera e Información */}
         <Grid container spacing={8}>
-          {/* Columna para la bandera */}
-          <Grid sx={{ width: { xs: '100%', md: '40%' } }}>
-            <Box display="flex" justifyContent="center">
+          <Grid sx={{ width: { xs: '100%', md: '43%' } }}>
+            <Box display="flex" justifyContent="center" border={1}>
               <img
                 src={country.flags.png}
                 alt={`${country.name.common} flag`}
@@ -95,9 +102,8 @@ function CountryPage({ theme }) {
             </Box>
           </Grid>
 
-          {/* Columna para la información */}
           <Grid sx={{ width: { xs: '100%', md: '50%' } }}>
-            <Typography variant="h3" gutterBottom>
+            <Typography variant="h2" gutterBottom>
               {country.name.common}
             </Typography>
             <Typography variant="body1">
@@ -131,8 +137,10 @@ function CountryPage({ theme }) {
             </Typography>
 
             {neighbors.length > 0 && (
-              <Box mt={2}>
-                <Typography variant="h6">Border Countries:</Typography>
+              <Box mt={3}>
+                <Typography variant="h6">
+                  <strong>Border Countries:</strong>
+                </Typography>
                 <Box display="flex" flexWrap="wrap" gap={1} mt={1}>
                   {neighbors.map((neighbor) => (
                     <Button

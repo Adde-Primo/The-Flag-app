@@ -6,7 +6,7 @@
 }
 
 .nav-content {
-  width: 75%;
+  width: 80%;
   margin: 0 auto;
   display: grid;
   grid-template-columns: 1fr auto 1fr;
