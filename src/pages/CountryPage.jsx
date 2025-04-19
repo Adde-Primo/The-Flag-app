@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
-import { Grid, Box, Typography, Button } from '@mui/material';
-import ArrowLeftDark from '../assets/arrow-left-dark.svg';
-import ArrowLeft from '../assets/arrow-left.svg';
+import React, { useEffect, useState } from "react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import ArrowLeftDark from "../assets/arrow-left-dark.svg";
+import ArrowLeftLight from "../assets/arrow-left.svg"; // byt till ljus pil om du har
+import "./CountryPage.css";
 
-function CountryPage({ theme }) {
+export default function CountryPage({ theme }) {
   const { name } = useParams();
   const [country, setCountry] = useState(null);
   const [neighbors, setNeighbors] = useState([]);
@@ -12,155 +12,128 @@ function CountryPage({ theme }) {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchCountry = async () => {
+    async function fetchCountry() {
       setLoading(true);
       try {
         const res = await fetch(
           `https://restcountries.com/v3.1/name/${name}?fullText=true`
         );
-        const data = await res.json();
-        const countryData = data[0];
-        setCountry(countryData);
+        const [data] = await res.json();
+        setCountry(data);
 
-        if (countryData.borders) {
-          const codes = countryData.borders.join(',');
-          const resNeighbors = await fetch(
+        if (data.borders) {
+          const codes = data.borders.join(",");
+          const nbrs = await fetch(
             `https://restcountries.com/v3.1/alpha?codes=${codes}`
-          );
-          const neighborsData = await resNeighbors.json();
-          setNeighbors(neighborsData);
+          ).then((r) => r.json());
+          setNeighbors(nbrs);
         }
-      } catch (error) {
-        console.error('Error fetching country details:', error);
+      } catch (e) {
+        console.error(e);
       }
       setLoading(false);
-    };
+    }
     fetchCountry();
   }, [name]);
 
   if (loading) {
-    return (
-      <Typography variant="h5" textAlign="center" mt={4}>
-        Loading...
-      </Typography>
-    );
+    return <div className="loading">Loading…</div>;
   }
-
   if (!country) {
-    return (
-      <Typography variant="h5" textAlign="center" mt={4}>
-        Country not found...
-      </Typography>
-    );
+    return <div className="loading">Country not found</div>;
   }
 
-  const arrowIcon = theme === 'dark' ? ArrowLeft : ArrowLeftDark;
+  const nativeName = country.name.nativeName
+    ? Object.values(country.name.nativeName)[0].common
+    : "N/A";
+
+  const arrowIcon = theme === "dark" ? ArrowLeftDark : ArrowLeftLight;
 
   return (
-    <Box sx={{ width: '100%', margin: '0 auto', padding: 0 }}>
-      <Grid container direction="column" spacing={9} sx={{ padding: 1 }}>
-        <Grid>
-          <Button
-            fullWidth
-            onClick={() => navigate(-1)}
-            startIcon={
-              <img
-                src={arrowIcon}
-                alt="Back arrow"
-                style={{
-                  width: 22,
-                  height: 'auto',
-                  filter:
-                    theme === 'dark' ? 'brightness(0) invert(1)' : undefined
-                }}
-              />
-            }
-            sx={{
-              display: 'inline-flex',
-              width: 'fit-content',
-              justifyContent: 'flex-start',
-              textTransform: 'none',
-              color: 'inherit',
-              padding: '10px 1px'
-            }}
-          >
-            BACK
-          </Button>
-        </Grid>
+    <main className={`country-page ${theme}`}>
+      <button
+        className="back-button"
+        onClick={() => navigate(-1)}
+        aria-label="Go back"
+      >
+        <img src={arrowIcon} alt="" className="back-icon" />
+        <span>BACK</span>
+      </button>
 
-        <Grid container spacing={8}>
-          <Grid sx={{ width: { xs: '100%', md: '43%' } }}>
-            <Box display="flex" justifyContent="center" border={1}>
-              <img
-                src={country.flags.png}
-                alt={`${country.name.common} flag`}
-                style={{
-                  width: '100%',
-                  height: 'auto'
-                }}
-              />
-            </Box>
-          </Grid>
+      <div className="details">
+        <div className="flag-container">
+          <img
+            src={country.flags.png}
+            alt={`Flag of ${country.name.common}`}
+            className="flag"
+          />
+        </div>
 
-          <Grid sx={{ width: { xs: '100%', md: '50%' } }}>
-            <Typography variant="h2" gutterBottom>
-              {country.name.common}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Population:</strong> {country.population.toLocaleString()}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Region:</strong> {country.region}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Sub Region:</strong> {country.subregion || 'N/A'}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Capital:</strong>{' '}
-              {country.capital ? country.capital[0] : 'N/A'}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Top Level Domain:</strong>{' '}
-              {country.tld ? country.tld.join(', ') : 'N/A'}
-            </Typography>
-            <Typography variant="body1">
-              <strong>Currencies:</strong>{' '}
-              {country.currencies
-                ? Object.values(country.currencies).map((c) => c.name).join(', ')
-                : 'N/A'}
-            </Typography>
-            <Typography variant="body1" gutterBottom>
-              <strong>Languages:</strong>{' '}
-              {country.languages
-                ? Object.values(country.languages).join(', ')
-                : 'N/A'}
-            </Typography>
+        <div className="info-container">
+          <h1 className="country-name">{country.name.common}</h1>
 
-            {neighbors.length > 0 && (
-              <Box mt={3}>
-                <Typography variant="h6">
-                  <strong>Border Countries:</strong>
-                </Typography>
-                <Box display="flex" flexWrap="wrap" gap={1} mt={1}>
-                  {neighbors.map((neighbor) => (
-                    <Button
-                      key={neighbor.cca3}
-                      variant="outlined"
-                      component={Link}
-                      to={`/country/${neighbor.name.common}`}
-                    >
-                      {neighbor.cca3}
-                    </Button>
-                  ))}
-                </Box>
-              </Box>
-            )}
-          </Grid>
-        </Grid>
-      </Grid>
-    </Box>
+          <div className="info-columns">
+            <div className="info-col">
+              <p>
+                <strong>Population:</strong> {country.population}
+              </p>
+              <p>
+                <strong>Region:</strong> {country.region}
+              </p>
+              <p>
+                <strong>Capital:</strong>{" "}
+                {country.capital ? country.capital[0] : "N/A"}
+              </p>
+              <p>
+                <strong>Native name:</strong> {nativeName}
+              </p>
+            </div>
+            <div className="info-col">
+              <p>
+                <strong>Top Level Domain:</strong>{" "}
+                {country.tld ? country.tld.join(", ") : "N/A"}
+              </p>
+              <p>
+                <strong>Currencies:</strong>{" "}
+                {country.currencies
+                  ? Object.values(country.currencies)
+                      .map((c) => c.name)
+                      .join(", ")
+                  : "N/A"}
+              </p>
+              <p>
+                <strong>Language:</strong>{" "}
+                {country.languages
+                  ? Object.values(country.languages).join(", ")
+                  : "N/A"}
+              </p>
+            </div>
+          </div>
+
+          <div className="borders">
+            <p className="borders-label">
+              <strong>Border Countries:</strong>
+            </p>
+            <div className="borders-list">
+              {neighbors.length > 0 ? (
+                neighbors.map((nbr) => (
+                  <Link
+                    key={nbr.cca3}
+                    to={`/country/${nbr.name.common}`}
+                    className="border-button"
+                  >
+                    {nbr.cca3}
+                  </Link>
+                ))
+              ) : (
+                <p className="no-borders">
+                  <strong>No border countries.</strong>
+                </p>
+              )}
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
   );
 }
-
-export default CountryPage;
-
