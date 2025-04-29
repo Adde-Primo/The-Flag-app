@@ -8,7 +8,6 @@ function HomePage() {
   const [countries, setCountries] = useState([]);
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [loading, setLoading] = useState(true);
-  
   const [searchTerm, setSearchTerm] = useState('');
   const [region, setRegion] = useState('');
 
@@ -18,12 +17,9 @@ function HomePage() {
       try {
         const res = await fetch('https://restcountries.com/v3.1/all');
         const data = await res.json();
-
-        
         const sortedData = data.sort((a, b) =>
           a.name.common.localeCompare(b.name.common)
         );
-
         setCountries(sortedData);
         setFilteredCountries(sortedData);
       } catch (error) {
@@ -51,21 +47,23 @@ function HomePage() {
   }, [searchTerm, region, countries]);
 
   return (
-    <div className="home-page">
-      <div className="filter-bar">
-        <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        <DropDown region={region} setRegion={setRegion} />
-      </div>
-
-      {loading ? (
-        <div className="loading">Loading...</div>
-      ) : (
-        <div className="countries-grid">
-          {filteredCountries.map((country) => (
-            <CountryCard key={country.cca3} country={country} />
-          ))}
+    <div className="page-container">
+      <div className="home-page">
+        <div className="filter-bar">
+          <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <DropDown region={region} setRegion={setRegion} />
         </div>
-      )}
+
+        {loading ? (
+          <div className="loading">Loading...</div>
+        ) : (
+          <div className="countries-grid">
+            {filteredCountries.map((country) => (
+              <CountryCard key={country.cca3} country={country} />
+            ))}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

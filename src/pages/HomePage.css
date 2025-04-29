@@ -1,33 +1,47 @@
-.home-page {
-    width: 100%;
-  }
+.page-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
 
-  .filter-bar {
-    margin-top: 1.8rem;
+.home-page {
+  width: 80%;
+  max-width: 1440px; /* Optional: sets a maximum width */
+}
+
+.filter-bar {
+  margin-top: 1.8rem;
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.loading {
+  text-align: center;
+  font-size: 1.0rem;
+  margin-top: 2rem;
+}
+
+.countries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+@media screen and (max-width: 900px) {
+  .home-page {
+    width: 90%; 
   }
   
-  .loading {
-    text-align: center;
-    font-size: 1.0rem;
-    margin-top: 2rem;
+  .filter-bar {
+    margin-top: 1.0rem;
+    flex-direction: column;
   }
   
   .countries-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 2rem;
+    grid-template-columns: 1fr; 
+    gap: 3rem;
   }
-  
-  @media screen and (max-width: 900px) {
-    .filter-bar {
-      margin-top: 1.0rem;
-    }
-    
-    .countries-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      margin-top: 3rem;
-      gap: 3rem;
-    }
-
-  }
+}
