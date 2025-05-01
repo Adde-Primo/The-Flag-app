@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage'; 
 import CountryPage from './pages/CountryPage'; 
-import Navbar from './components/Navbar';
+import NavBar from './components/NavBar';
 
 function App() {
   const [theme, setTheme] = useState('light');
