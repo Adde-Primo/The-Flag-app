@@ -4,12 +4,16 @@ import Search from '../components/Search';
 import DropDown from '../components/DropDown';
 import CountryCard from '../components/CountryCard';
 
-function HomePage() {
+  function HomePage() {
   const [countries, setCountries] = useState([]);
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [region, setRegion] = useState('');
+
+  // Helper: puts names starting with Å/å at the end
+  const sortKey = (name) =>
+    /^[Åå]/.test(name) ? 'zzzz' + name.toLowerCase() : name.toLowerCase();
 
   useEffect(() => {
     const fetchCountries = async () => {
@@ -17,11 +21,12 @@ function HomePage() {
       try {
         const res = await fetch('https://restcountries.com/v3.1/all');
         const data = await res.json();
-        const sortedData = data.sort((a, b) =>
-          a.name.common.localeCompare(b.name.common)
+        // initial sort with Å last
+        const sorted = data.sort((a, b) =>
+          sortKey(a.name.common).localeCompare(sortKey(b.name.common))
         );
-        setCountries(sortedData);
-        setFilteredCountries(sortedData);
+        setCountries(sorted);
+        setFilteredCountries(sorted);
       } catch (error) {
         console.error('Error fetching countries:', error);
       }
@@ -34,16 +39,18 @@ function HomePage() {
     let temp = countries;
 
     if (searchTerm) {
-      temp = temp.filter((country) =>
-        country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
+      temp = temp.filter((c) =>
+        c.name.common.toLowerCase().includes(searchTerm.toLowerCase())
       );
     }
-
     if (region) {
-      temp = temp.filter((country) => country.region === region);
+      temp = temp.filter((c) => c.region === region);
     }
-
-    setFilteredCountries(temp);
+    // reapply custom sort after filtering
+    const resorted = [...temp].sort((a, b) =>
+      sortKey(a.name.common).localeCompare(sortKey(b.name.common))
+    );
+    setFilteredCountries(resorted);
   }, [searchTerm, region, countries]);
 
   return (
@@ -67,5 +74,6 @@ function HomePage() {
     </div>
   );
 }
+
 
 export default HomePage;

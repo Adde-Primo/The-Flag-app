@@ -16,11 +16,10 @@ html, body {
   height: 100%;
 }
 
-/* Temavariabler */
 .app.light {
-  --bg-color: #ffffff;
+  --bg-color: #f8f8f8;
   --text-color: #202c36;
-  --element-bg: #f8f8f8;
+  --element-bg:#ffffff;
   --button-bg: rgba(0, 0, 0, 0.08);
   --button-hover-bg: rgba(0, 0, 0, 0.12);
 }
@@ -33,7 +32,6 @@ html, body {
   --button-hover-bg: rgba(255, 255, 255, 0.3);
 }
 
-/* App container */
 .app {
   min-height: 100vh;
   display: flex;
